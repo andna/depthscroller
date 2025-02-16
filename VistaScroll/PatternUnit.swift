@@ -1,3 +1,11 @@
+//
+//  PatternUnit.swift
+//  VistaScroll
+//
+//  Created by Andres Bastidas on 10/01/25.
+//
+
+
 struct PatternUnit: View {
     let index: Int
     let circleRadius: CGFloat

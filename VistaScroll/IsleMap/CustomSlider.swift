@@ -51,37 +51,24 @@ struct CustomSlider: View {
                 
                 // Step Indicators
                 if let steps = numberOfSteps, steps > 1 {
-                    // Determine whether to show steps based on platform and hover state
-                    let showSteps: Bool = {
-                        #if os(macOS)
-                        return isHovered
-                        #else
-                        return true // Always show steps on platforms without hover
-                        #endif
-                    }()
                     
-                    if showSteps {
-                        ForEach(0..<steps, id: \.self) { step in
-                            let stepPosition = CGFloat(step) / CGFloat(steps - 1) * sliderWidth
-                            // Use a Button for better accessibility and interaction
-                            Button(action: {
-                                // Calculate the corresponding value for the step
-                                let stepValue = Double(step) / Double(steps - 1)
-                                let newValue = range.lowerBound + stepValue * (range.upperBound - range.lowerBound)
-                                withAnimation(.interactiveSpring()) {
-                                    self.value = newValue
-                                }
-                            }) {
-                                Circle()
-                                    .fill(stepColor)
-                                    .frame(width: stepSize, height: stepSize)
-                            }
-                            .buttonStyle(PlainButtonStyle()) // Remove default button styling
-                            .position(x: stepPosition, y: sliderHeight / 2)
-                            .onHover { hovering in
-                                isHovered = hovering
-                            }
+                    ForEach(0..<steps, id: \.self) { step in
+                        let stepPosition = CGFloat(step) / CGFloat(steps - 1) * sliderWidth
+                        // Use a Button for better accessibility and interaction
+                        Button(action: {
+                            // Calculate the corresponding value for the step
+                                                         let stepValue = Double(step) / Double(steps - 1)
+                                                         let newValue = range.lowerBound + stepValue * (range.upperBound - range.lowerBound)
+                                                         withAnimation(.interactiveSpring()) {
+                                                             self.value = newValue
+                                                         }
+                        }) {
+                            Circle()
+                                .fill(stepColor)
+                                .frame(width: stepSize, height: stepSize)
                         }
+                        .buttonStyle(PlainButtonStyle()) // Remove default button styling
+                        .position(x: stepPosition, y: sliderHeight / 2)
                     }
                 }
                 
@@ -110,7 +97,8 @@ struct CustomSlider: View {
                                 }
                             }
                     )
-                    .offset(z: 2)
+                    .offset(z: 3)
+                /*
                     .accessibilityElement()
                     .accessibility(label: Text("Custom Slider"))
                     .accessibility(value: Text("\(Int(clampedValue))"))
@@ -131,17 +119,8 @@ struct CustomSlider: View {
                             break
                         }
                     }
+                 */
             }
-            // Handle hover state on macOS
-            .background(
-                // Transparent background to detect hover
-                Color.clear
-                    .onHover { hovering in
-                        #if os(macOS)
-                        self.isHovered = hovering
-                        #endif
-                    }
-            )
         }
         .frame(height: max(thumbSize, trackHeight))
     }
